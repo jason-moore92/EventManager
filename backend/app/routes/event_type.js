@@ -1,4 +1,4 @@
-const controller = require('../controllers/event')
+const controller = require('../controllers/event_type')
 
 const express = require('express')
 const router = express.Router()
@@ -12,28 +12,28 @@ const requireAuth = passport.authenticate('jwt', {
 })
 
 router.post(
-  '/api/v1/event/add',
+  '/api/v1/event_type/add',
   requireAuth,
   trimRequest.all,
   controller.add
 )
 
 router.post(
-  '/api/v1/event/update',
+  '/api/v1/event_type/update',
   requireAuth,
   trimRequest.all,
   controller.update
 )
 
 router.post(
-  '/api/v1/event/delete',
+  '/api/v1/event_type/delete',
   requireAuth,
   trimRequest.all,
   controller.delete
 )
 
 router.get(
-  '/api/v1/event/getAll',
+  '/api/v1/event_type/getAll',
   requireAuth,
   trimRequest.all,
   controller.getAll

@@ -22,7 +22,7 @@
 			"WORNG_PASSWORD": "Login not successful. Wrong Password"
 		}
 	},
-	"event": {
+	"event_type": {
 		"add": {
 			"Exist_EventType":"Event type already exists, please use a different one"
 		},

@@ -1,6 +1,6 @@
 const i18n = require('i18n')
 
-const EventType = require('../models/event_type')
+const Event = require('../models/event')
 
 exports.add = async (req, res, next) => {
   try {
@@ -8,17 +8,12 @@ exports.add = async (req, res, next) => {
     const locale = req.getLocale()
     i18n.setLocale(locale)
 
-    let exist = await EventType.findOne({ name: req.body.name });
-    if (exist) {
-      return res.status(400).send({ 
-        "success": false, 
-        "message": i18n.__('event_type.add.Exist_EventType'),
-      });
-    }
+    console.log("events:---" , req.body)
 
-    var eventType = await EventType.create(req.body);
-    if (eventType) {
-      return res.send({ "success": true, "data": eventType });
+    var event = await Event.create(req.body);
+    console.log("=========================")
+    if (event) {
+      return res.send({ "success": true, "data": event });
     } else {
       return res.status(400).send({ "success": false, "message": i18n.__('common.error.Normal') });
     }
@@ -29,15 +24,15 @@ exports.add = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    var exist = await EventType.findOne({ _id: req.body["_id"] });
+    var exist = await Event.findOne({ _id: req.body["_id"] });
     if (!exist) {
       return res.status(400).send({ 
         "success": false, 
-        "message": i18n.__('event_type.update.Not_Exist')
+        "message": i18n.__('event.update.Not_Exist')
       });
     }
 
-    EventType.findByIdAndUpdate(req.body["_id"], req.body, { new: true, upsert: true }, async (err, doc, any) => {
+    Event.findByIdAndUpdate(req.body["_id"], req.body, { new: true, upsert: true }, async (err, doc, any) => {
       if (err) {
         return res.status(400).send({ "success": false, "message": i18n.__('common.error.Normal') });
       }
@@ -50,16 +45,16 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    var exist = await EventType.findOne({ _id: req.body["_id"] });
+    var exist = await Event.findOne({ _id: req.body["_id"] });
     if (!exist) {
       return res.status(400).send({ 
         "success": false, 
-        "message": i18n.__('event_type.delete.Not_Exist')
+        "message": i18n.__('event.delete.Not_Exist')
       });
     }
 
     exist.isDeleted = true;
-    EventType.findByIdAndUpdate(exist["_id"], exist, { new: true, upsert: true }, async (err, doc, any) => {
+    Event.findByIdAndUpdate(exist["_id"], exist, { new: true, upsert: true }, async (err, doc, any) => {
       if (err) {
         return res.status(400).send({ "success": false, "message": i18n.__('common.error.Normal') });
       }
@@ -72,7 +67,34 @@ exports.delete = async (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
   try {
-    var events = await EventType.find({ isDeleted: false });
+	  var match = {};
+		match["isDeleted"] = false;
+    
+    const pipeline = [
+      { $match: match },
+      { 
+        "$addFields": {
+          "types": {
+            "$map": {
+              "input": "$types",
+              "in": { "$toObjectId": "$$this" }
+            }
+          }
+        }
+      },
+      {
+        $lookup:
+        {
+          from: "event_types",
+          localField: 'types',
+          foreignField: '_id',
+          as: "types"
+        },
+      },
+    ];
+
+    var events = await Event.aggregate(pipeline);
+    
     return res.send({ "success": true, "data": events });
   } catch (error) {
     next(error)

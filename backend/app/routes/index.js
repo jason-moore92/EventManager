@@ -4,6 +4,7 @@ const router = express.Router()
 // Load Auth route
 router.use('/', require('./auth'))
 router.use('/', require('./event_type'))
+router.use('/', require('./event'))
 
 
 /*

@@ -51,5 +51,16 @@
 		"delete": {
 			"Not_Exist":"Venue don't exist."
 		}
+	},
+	"food_catalog": {
+		"add": {
+			"Exist_FoodCatalog":"Food Catalog already exists, please use a different one"
+		},
+		"update": {
+			"Not_Exist":"Food Catalog don't exist."
+		},
+		"delete": {
+			"Not_Exist":"Food Cataloge don't exist."
+		}
 	}
 }

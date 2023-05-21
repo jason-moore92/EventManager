@@ -5,6 +5,7 @@ const router = express.Router()
 router.use('/', require('./auth'))
 router.use('/', require('./event_type'))
 router.use('/', require('./event'))
+router.use('/', require('./venue'))
 
 
 /*

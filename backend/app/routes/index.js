@@ -7,6 +7,7 @@ router.use('/', require('./event_type'))
 router.use('/', require('./event'))
 router.use('/', require('./venue'))
 router.use('/', require('./food_catalog'))
+router.use('/', require('./equipment_catalog'))
 
 
 /*

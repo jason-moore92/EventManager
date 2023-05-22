@@ -6,10 +6,10 @@
 	},
 	"auth": {
 		"register": {
-			"existUser":"User already registered"
+			"existUser": "User already registered"
 		},
 		"verify": {
-			"BAD_TOKEN":"Bad Token",
+			"BAD_TOKEN": "Bad Token",
 			"NOT_FOUND_OR_ALREADY_VERIFIED": "NOT_FOUND_OR_ALREADY_VERIFIED"
 		},
 		"resetPassword": {
@@ -24,43 +24,54 @@
 	},
 	"event_type": {
 		"add": {
-			"Exist_EventType":"Event type already exists, please use a different one"
+			"Exist_EventType": "Event type already exists, please use a different one"
 		},
 		"update": {
-			"Not_Exist":"Event type don't exist."
+			"Not_Exist": "Event type don't exist."
 		},
 		"delete": {
-			"Not_Exist":"Event type don't exist."
+			"Not_Exist": "Event type don't exist."
 		}
 	},
 	"event": {
 		"update": {
-			"Not_Exist":"Event don't exist."
+			"Not_Exist": "Event don't exist."
 		},
 		"delete": {
-			"Not_Exist":"Event don't exist."
+			"Not_Exist": "Event don't exist."
 		}
 	},
 	"venue": {
 		"add": {
-			"Exist_Venue":"Venue already exists, please use a different one"
+			"Exist_Venue": "Venue already exists, please use a different one"
 		},
 		"update": {
-			"Not_Exist":"Venue don't exist."
+			"Not_Exist": "Venue don't exist."
 		},
 		"delete": {
-			"Not_Exist":"Venue don't exist."
+			"Not_Exist": "Venue don't exist."
 		}
 	},
 	"food_catalog": {
 		"add": {
-			"Exist_FoodCatalog":"Food Catalog already exists, please use a different one"
+			"Exist_FoodCatalog": "Food Catalog already exists, please use a different one"
 		},
 		"update": {
-			"Not_Exist":"Food Catalog don't exist."
+			"Not_Exist": "Food Catalog don't exist."
 		},
 		"delete": {
-			"Not_Exist":"Food Cataloge don't exist."
+			"Not_Exist": "Food Cataloge don't exist."
+		}
+	},
+	"equipment_catalog": {
+		"add": {
+			"Exist_EquipmentCatalog": "Equipment Catalog already exists, please use a different one"
+		},
+		"update": {
+			"Not_Exist": "Equipment Catalog don't exist."
+		},
+		"delete": {
+			"Not_Exist": "Equipment Cataloge don't exist."
 		}
 	}
 }

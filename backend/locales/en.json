@@ -73,5 +73,16 @@
 		"delete": {
 			"Not_Exist": "Equipment Cataloge don't exist."
 		}
+	},
+	"book_event": {
+		"add": {
+			"Exist_BookEvent": "BookEvent number already exists, please use a different one"
+		},
+		"update": {
+			"Not_Exist": "BookEvent don't exist."
+		},
+		"delete": {
+			"Not_Exist": "BookEvent don't exist."
+		}
 	}
 }

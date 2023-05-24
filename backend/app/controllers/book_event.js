@@ -1,6 +1,6 @@
 const i18n = require('i18n')
 
-const Event = require('../models/event')
+const BookEvent = require('../models/book_event')
 
 exports.add = async (req, res, next) => {
   try {
@@ -8,10 +8,15 @@ exports.add = async (req, res, next) => {
     const locale = req.getLocale()
     i18n.setLocale(locale)
 
-    console.log("events:---" , req.body)
+    let exist = await BookEvent.findOne({ number: req.body.number });
+    if (exist) {
+      return res.status(400).send({ 
+        "success": false, 
+        "message": i18n.__('book_event.add.Exist_BookEvent'),
+      });
+    }
 
-    var event = await Event.create(req.body);
-    console.log("=========================")
+    var event = await BookEvent.create(req.body);
     if (event) {
       return res.send({ "success": true, "data": event });
     } else {
@@ -24,15 +29,15 @@ exports.add = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    var exist = await Event.findOne({ _id: req.body["_id"] });
+    var exist = await BookEvent.findOne({ _id: req.body["_id"] });
     if (!exist) {
       return res.status(400).send({ 
         "success": false, 
-        "message": i18n.__('event.update.Not_Exist')
+        "message": i18n.__('book_event.update.Not_Exist')
       });
     }
 
-    Event.findByIdAndUpdate(req.body["_id"], req.body, { new: true, upsert: true }, async (err, doc, any) => {
+    BookEvent.findByIdAndUpdate(req.body["_id"], req.body, { new: true, upsert: true }, async (err, doc, any) => {
       if (err) {
         return res.status(400).send({ "success": false, "message": i18n.__('common.error.Normal') });
       }
@@ -45,16 +50,15 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    var exist = await Event.findOne({ _id: req.body["_id"] });
+    var exist = await BookEvent.findOne({ _id: req.body["_id"] });
     if (!exist) {
       return res.status(400).send({ 
         "success": false, 
-        "message": i18n.__('event.delete.Not_Exist')
+        "message": i18n.__('book_event.delete.Not_Exist')
       });
     }
 
-    exist.isDeleted = true;
-    Event.findByIdAndUpdate(exist["_id"], exist, { new: true, upsert: true }, async (err, doc, any) => {
+    BookEvent.findByIdAndDelete(exist["_id"], async (err, doc, any) => {
       if (err) {
         return res.status(400).send({ "success": false, "message": i18n.__('common.error.Normal') });
       }
@@ -68,32 +72,36 @@ exports.delete = async (req, res, next) => {
 exports.getAll = async (req, res, next) => {
   try {
 	  var match = {};
-		match["isDeleted"] = false;
     
     const pipeline = [
       { $match: match },
-      { 
-        "$addFields": {
-          "types": {
-            "$map": {
-              "input": "$types",
-              "in": { "$toObjectId": "$$this" }
-            }
-          }
-        }
+      {
+        $lookup: {
+          from: "event_types",
+          localField: 'events',
+          foreignField: '_id',
+          as: "events"
+        },
       },
       {
-        $lookup:
-        {
-          from: "event_types",
-          localField: 'types',
+        $lookup: {
+          from: "food_catalogs",
+          localField: 'foods',
           foreignField: '_id',
-          as: "types"
+          as: "foods"
+        },
+      },
+      {
+        $lookup: {
+          from: "equipment_catalogs",
+          localField: 'equipments',
+          foreignField: '_id',
+          as: "equipments"
         },
       },
     ];
 
-    var events = await Event.aggregate(pipeline);
+    var events = await BookEvent.aggregate(pipeline);
     
     return res.send({ "success": true, "data": events });
   } catch (error) {

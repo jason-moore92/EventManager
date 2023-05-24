@@ -11,10 +11,6 @@ const FoodCatalogSchema = new mongoose.Schema(
       type: Number,
       required: true
     },
-    cost: {
-      type: Number,
-      required: true
-    },
     enabled: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
   },

@@ -81,4 +81,4 @@ UserSchema.index( { "phoneNumber" : 1 }, { unique: true } )
 
 UserSchema.plugin(aggregatePaginate)
 
-module.exports = mongoose.model('Users', UserSchema)
+module.exports = mongoose.model('users', UserSchema)

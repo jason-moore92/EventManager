@@ -20,4 +20,4 @@ const VenueSchema = new mongoose.Schema(
 
 VenueSchema.plugin(aggregatePaginate)
 
-module.exports = mongoose.model('Venues', VenueSchema)
+module.exports = mongoose.model('venues', VenueSchema)
